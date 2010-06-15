@@ -3,6 +3,7 @@ from string import lower
 import simplejson as json
 import urllib
 import urllib2
+from hashlib import sha1
 from django.contrib.auth.models import User, check_password
 from settings import *
 
@@ -25,7 +26,7 @@ class DredditAuthBackend:
             opener = urllib2.build_opener(auth_handler)
             urllib2.install_opener(opener)
 
-            params = { 'user': username }
+            params = { 'user': username, 'pass': sha1(password).hexdigest() }
             try:
                 raw = urllib2.urlopen('%s?%s' % (api_url, urllib.urlencode(params)))
             except urllib2.HTTPError:
@@ -33,7 +34,7 @@ class DredditAuthBackend:
             else:
                 obj = json.loads(raw.read())
 
-                if 'password' in obj and check_password(password, obj['password']):
+                if 'auth' in obj and obj['auth'] == 'ok':
                     email = obj['email']
                     valid = True
 
