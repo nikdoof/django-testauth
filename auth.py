@@ -17,7 +17,7 @@ class DredditAuthBackend:
 
         if username and password:
             # Call the webservice
-            api_url = 'https://auth.dredd.it/api/user/'
+            api_url = 'https://auth.dredd.it/api/login/'
             auth_handler = urllib2.HTTPBasicAuthHandler()
             auth_handler.add_password(realm='dredditauth',
                                      uri=api_url,
