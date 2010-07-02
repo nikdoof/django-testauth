@@ -36,6 +36,7 @@ class DredditAuthBackend:
 
                 if 'auth' in obj and obj['auth'] == 'ok':
                     email = obj['email']
+                    groups = obj['groups']
                     valid = True
 
         if valid:
@@ -45,6 +46,12 @@ class DredditAuthBackend:
                 user.save()
             if email:
                 user.email = email
+
+            if hasattr(settings, 'DREDDIT_AUTH_CREATE_GROUPS') and settings.DREDDIT_AUTH_CREATE_GROUPS:
+                for g in groups:
+                    group, created = Group.objects.get_or_create(name=g['name']):
+                    user.groups.add(group)
+
             return user
         return None
 
