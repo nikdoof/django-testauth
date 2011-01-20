@@ -1,11 +1,11 @@
 import hashlib
 from string import lower
-import simplejson as json
+import django.utils.simplejson as json
 import urllib
 import urllib2
 from hashlib import sha1
 from django.contrib.auth.models import User, check_password
-from settings import *
+import settings
 
 class DredditAuthBackend:
     """
@@ -18,14 +18,6 @@ class DredditAuthBackend:
         if username and password:
             # Call the webservice
             api_url = 'https://auth.dredd.it/api/login/'
-            auth_handler = urllib2.HTTPBasicAuthHandler()
-            auth_handler.add_password(realm='dredditauth',
-                                     uri=api_url,
-                                     user=DREDDIT_API_USERNAME,
-                                     passwd=DREDDIT_API_PASSWORD)
-            opener = urllib2.build_opener(auth_handler)
-            urllib2.install_opener(opener)
-
             params = { 'user': username, 'pass': sha1(password).hexdigest() }
             try:
                 raw = urllib2.urlopen('%s?%s' % (api_url, urllib.urlencode(params)))
@@ -49,7 +41,7 @@ class DredditAuthBackend:
 
             if hasattr(settings, 'DREDDIT_AUTH_CREATE_GROUPS') and settings.DREDDIT_AUTH_CREATE_GROUPS:
                 for g in groups:
-                    group, created = Group.objects.get_or_create(name=g['name']):
+                    group, created = Group.objects.get_or_create(name=g['name'])
                     user.groups.add(group)
 
             return user
