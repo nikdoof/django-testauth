@@ -17,7 +17,7 @@ class DredditAuthBackend:
 
         if username and password:
             # Call the webservice
-            api_url = 'https://auth.dredd.it/api/login/'
+            api_url = 'https://auth.pleaseignore.com/api/login/'
             params = { 'user': username, 'pass': sha1(password).hexdigest() }
             try:
                 raw = urllib2.urlopen('%s?%s' % (api_url, urllib.urlencode(params)))
