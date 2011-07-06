@@ -4,7 +4,7 @@ import django.utils.simplejson as json
 import urllib
 import urllib2
 from hashlib import sha1
-from django.contrib.auth.models import User, check_password
+from django.contrib.auth.models import User, check_password, Group
 import settings
 
 class DredditAuthBackend:
