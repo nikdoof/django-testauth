@@ -7,9 +7,9 @@ from hashlib import sha1
 from django.contrib.auth.models import User, check_password, Group
 import settings
 
-class DredditAuthBackend:
+class TESTAuthBackend:
     """
-    Django authentication backend for authenticating against Dreddit's Auth System.
+    Django authentication backend for authenticating against TEST's Auth System.
     """
     def authenticate(self, username=None, password=None):
 
@@ -39,7 +39,7 @@ class DredditAuthBackend:
             if email:
                 user.email = email
 
-            if hasattr(settings, 'DREDDIT_AUTH_CREATE_GROUPS') and settings.DREDDIT_AUTH_CREATE_GROUPS:
+            if getattr(settings, 'TEST_AUTH_CREATE_GROUPS', False):
                 for g in groups:
                     group, created = Group.objects.get_or_create(name=g['name'])
                     user.groups.add(group)
