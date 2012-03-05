@@ -29,15 +29,20 @@ class TESTAuthBackend:
                 if 'auth' in obj and obj['auth'] == 'ok':
                     email = obj['email']
                     groups = obj['groups']
+                    name = None
+                    if obj.has_key('primarycharacter'):
+                        name = obj['primarycharacter']['name']
                     valid = True
 
         if valid:
             user, created = User.objects.get_or_create(username=username.lower())
             if created:
                 user.set_unusable_password() # disable login through Model backend
-                user.save()
             if email:
                 user.email = email
+            if name
+                user.first_name = name
+            user.save()
 
             if getattr(settings, 'TEST_AUTH_CREATE_GROUPS', False):
                 for g in groups:
