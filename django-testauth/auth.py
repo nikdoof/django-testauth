@@ -40,7 +40,7 @@ class TESTAuthBackend:
                 user.set_unusable_password() # disable login through Model backend
             if email:
                 user.email = email
-            if name
+            if name:
                 user.first_name = name
             user.save()
 
