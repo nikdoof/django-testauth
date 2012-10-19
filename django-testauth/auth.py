@@ -1,4 +1,3 @@
-import hashlib
 from string import lower
 import django.utils.simplejson as json
 import urllib
