@@ -46,6 +46,7 @@ class TESTAuthBackend:
             user.save()
 
             if getattr(settings, 'TEST_AUTH_CREATE_GROUPS', False):
+                user.groups.clear()
                 for g in groups:
                     group, created = Group.objects.get_or_create(name=g['name'])
                     user.groups.add(group)
