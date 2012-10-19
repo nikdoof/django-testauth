@@ -4,8 +4,9 @@ import django.utils.simplejson as json
 import urllib
 import urllib2
 from hashlib import sha1
+from django.conf import settings
 from django.contrib.auth.models import User, check_password, Group
-import settings
+
 
 class TESTAuthBackend:
     """
@@ -17,7 +18,7 @@ class TESTAuthBackend:
 
         if username and password:
             # Call the webservice
-            api_url = 'https://auth.pleaseignore.com/api/1.0/login/'
+            api_url = getattr(settings, 'TEST_AUTH_LOGIN_URL', 'https://auth.pleaseignore.com/api/1.0/login/')
             params = { 'user': username, 'pass': sha1(password).hexdigest() }
             try:
                 raw = urllib2.urlopen('%s?%s' % (api_url, urllib.urlencode(params)))
